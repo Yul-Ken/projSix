@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -75,7 +75,8 @@ public class MapEditor : EditorWindow {
             mesh = target.GetComponent<MeshFilter> ().sharedMesh;
             orginalMesh = Object.Instantiate (mesh) as Mesh;
             mesh = Object.Instantiate (mesh) as Mesh;
-        }
+            isEditing = true;
+        } else { isEditing = false; }
     }
 
     void saveMesh (Mesh m) {
@@ -92,11 +93,11 @@ public class MapEditor : EditorWindow {
         if (isEditing && null != mesh) {
             Ray mouseRay = HandleUtility.GUIPointToWorldRay (e.mousePosition);
             Ray localray = InverseTransformRay (target.transform, mouseRay);
-
             hitInfo hit = new hitInfo ();
             if (meshRaycast (localray, mesh, ref hit)) {
-                Debug.Log ("hited" + hit.position);
-                Handles.DrawWireDisc (target.transform.TransformPoint (hit.position), target.transform.TransformDirection (hit.normal), 0.06f);
+                Handles.color = Color.green;
+                Handles.DrawWireDisc (target.transform.TransformPoint (hit.position), target.transform.TransformDirection (hit.normal), 0.2f);
+                Handles.color = Color.green;                
             }
         }
     }
