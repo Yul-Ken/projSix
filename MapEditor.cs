@@ -4,9 +4,8 @@ using UnityEditor;
 using UnityEngine;
 
 public class MapEditor : EditorWindow {
-    struct hitInfo {
+    public class hitInfo {
         public int triID;
-        public float distance;
         public Vector3 position;
         public Vector3 normal;
     }
@@ -16,7 +15,8 @@ public class MapEditor : EditorWindow {
 
     bool isEditing = false;
     GameObject target;
-    Mesh orginalMesh, mesh;
+    Mesh orginalMesh;
+    KMesh mesh;
     string path;
     string[] brushMode = { "sculpt", "subdivid" };
 
@@ -25,25 +25,31 @@ public class MapEditor : EditorWindow {
         GetWindow<MapEditor> ().Show ();
     }
 
-    Mesh backUpMesh (Mesh origin) {
-        Mesh m = new Mesh ();
-        m.vertices = origin.vertices;
-        m.normals = origin.normals;
-        m.tangents = origin.tangents;
-        m.uv = orginalMesh.uv;
-        m.uv2 = orginalMesh.uv2;
-        m.uv3 = orginalMesh.uv3;
-        m.uv4 = orginalMesh.uv4;
-        m.triangles = origin.triangles;
-        m.RecalculateNormals ();
-        m.RecalculateTangents ();
-        m.RecalculateBounds ();
+    // Mesh backUpMesh (Mesh origin) {
+    //     Mesh m = new Mesh ();
+    //     m.vertices = origin.vertices;
+    //     m.normals = origin.normals;
+    //     m.tangents = origin.tangents;
+    //     m.uv = orginalMesh.uv;
+    //     m.uv2 = orginalMesh.uv2;
+    //     m.uv3 = orginalMesh.uv3;
+    //     m.uv4 = orginalMesh.uv4;
+    //     m.triangles = origin.triangles;
+    //     m.RecalculateNormals ();
+    //     m.RecalculateTangents ();
+    //     m.RecalculateBounds ();
 
-        return m;
-    }
+    //     return m;
+    // }
 
     private void OnGUI () {
         EditorGUILayout.BeginVertical ();
+        if (mesh == null) {
+            GUILayout.Label ("current obj: null");
+        } else {
+            GUILayout.Label ("current obj: " + mesh.name);
+        }
+        GUILayout.Space (10);
         EditorGUI.BeginChangeCheck ();
         brushModeIndex = GUILayout.Toolbar (brushModeIndex, brushMode);
         brushRadius = EditorGUILayout.Slider ("brushRadius", brushRadius, 0.01f, 5f);
@@ -71,12 +77,14 @@ public class MapEditor : EditorWindow {
     void OnSelectionChange () {
         if (null != Selection.activeGameObject && null != Selection.activeGameObject.GetComponent<MeshFilter> ()) {
             target = Selection.activeGameObject;
-            Debug.Log (target.name);
-            mesh = target.GetComponent<MeshFilter> ().sharedMesh;
-            orginalMesh = Object.Instantiate (mesh) as Mesh;
-            mesh = Object.Instantiate (mesh) as Mesh;
+            orginalMesh = target.GetComponent<MeshFilter> ().sharedMesh;
+            mesh = new KMesh (orginalMesh);
+        }
+        // orginalMesh = Object.Instantiate (mesh) as Mesh;
+        // mesh = Object.Instantiate (mesh) as Mesh;
+        if (null != mesh)
             isEditing = true;
-        } else { isEditing = false; }
+        else isEditing = false;
     }
 
     void saveMesh (Mesh m) {
@@ -90,16 +98,18 @@ public class MapEditor : EditorWindow {
 
     void updateSceneGUI (SceneView sv) {
         Event e = Event.current;
-        if (isEditing && null != mesh) {
+        if (isEditing) {
             Ray mouseRay = HandleUtility.GUIPointToWorldRay (e.mousePosition);
-            Ray localray = InverseTransformRay (target.transform, mouseRay);
+            Ray localray = KMath.InverseTransformRay (target.transform, mouseRay);
             hitInfo hit = new hitInfo ();
-            if (meshRaycast (localray, mesh, ref hit)) {
-                Handles.color = Color.green;
-                Handles.DrawWireDisc (target.transform.TransformPoint (hit.position), target.transform.TransformDirection (hit.normal), 0.2f);
-                Handles.color = Color.green;                
-            }
+
+            // if (meshRaycast (localray, mesh, ref hit)) {
+            //     Handles.color = Color.green;
+            //     Handles.DrawWireDisc (target.transform.TransformPoint (hit.position), target.transform.TransformDirection (hit.normal), 0.2f);
+            //     Handles.color = Color.green;
+            // }
         }
+        Repaint ();
     }
 
     void drawTest (Vector3 pos) {
@@ -109,75 +119,27 @@ public class MapEditor : EditorWindow {
         Handles.color = Color.white;
 
     }
-    bool meshRaycast (Ray ray, Mesh m, ref hitInfo hit) {
+    bool meshRaycast (Ray ray, KMesh m, ref hitInfo hit) {
         Vector3 a, b, c;
-        int[] tri = mesh.GetTriangles (0);
+        int[] tri = mesh.GetTriangles ();
 
         for (int curTri = 0; curTri < tri.Length; curTri = curTri + 3) {
             a = m.vertices[tri[curTri + 0]];
             b = m.vertices[tri[curTri + 1]];
             c = m.vertices[tri[curTri + 2]];
-            if (RayIntersectsTriangle (ray.origin, ray.direction, a, b, c, ref hit)) {
+            if (KMath.rayIntersectsTriangle (ref ray, ref a, ref b, ref c, ref hit.position, ref hit.normal)) {
                 hit.triID = curTri;
-                hit.position = ray.GetPoint (hit.distance);
                 return true;
             }
         }
         return false;
     }
 
-    //http://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
-    static bool RayIntersectsTriangle (Vector3 o, Vector3 d, Vector3 a, Vector3 b, Vector3 c, ref hitInfo hit) {
-        Vector3 e1, e2, p, q, t;
-        float det, u, v;
-        e1 = b - a;
-        e2 = c - a;
-        p = Vector3.Cross (d, e2);
-        det = Vector3.Dot (e1, p);
-        if (det < Mathf.Epsilon) return false;
-        q = o - a;
-        u = Vector3.Dot (q, p);
-        if (u < 0 || u > det) return false;
-        t = Vector3.Cross (q, e1);
-        v = Vector3.Dot (d, t);
-        if (v < 0 || u + v > det) return false;
-        hit.distance = Vector3.Dot (e2, t) * (1 / det);
-        if (hit.distance > Mathf.Epsilon) {
-            hit.normal = Vector3.Cross (e1, e2);
-            return true;
-        }
-
-        return false;
-    }
-
-    public Ray InverseTransformRay (Transform transform, Ray InWorldRay) {
-        Vector3 o = InWorldRay.origin;
-        o -= transform.position;
-        o = transform.worldToLocalMatrix * o;
-        Vector3 d = transform.worldToLocalMatrix.MultiplyVector (InWorldRay.direction);
-        return new Ray (o, d);
-    }
-
-    void subDivideMesh (Mesh m) {
+    void subDivideMesh (KMesh m) {
 
     }
 
     void applyMesh (Mesh m) {
         target.GetComponent<MeshFilter> ().mesh = m;
     }
-}
-
-public class kmesh {
-    List<Vector3> vertices;
-    List<int> triangles;
-    List<Vector2> uv;
-    List<Vector2> uv1;
-    List<Vector2> uv2;
-    List<Vector2> uv3;
-    public kmesh (Mesh mesh) {
-        for (int i = 0; i < mesh.vertices.Length; ++i) this.vertices.Add (mesh.vertices[i]);
-        for (int i = 0; i < mesh.triangles.Length; ++i) this.triangles.Add (mesh.triangles[i]);
-        for (int i = 0; i < mesh.uv.Length; ++i) this.uv.Add (mesh.uv[i]);
-    }
-
 }
