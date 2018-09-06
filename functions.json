@@ -2417,6 +2417,118 @@
             "Synopsis": [
                 "float3 UnityWorldSpaceLightDir(in float3 worldPos)"
             ]
+        },
+        "UNITY_VERTEX_INPUT_INSTANCE_ID": {
+            "detail": "",
+            "documentation": "Use this in the vertex Shader input/output structure to define an instance ID. See SV_InstanceID for more information.",
+            "Synopsis": [
+                "UNITY_VERTEX_INPUT_INSTANCE_ID"
+            ]
+        },
+        "UNITY_TRANSFER_INSTANCE_ID": {
+            "detail": "",
+            "documentation": "Use this to copy the instance ID from the input structure to the output structure in the vertex Shader. This is only necessary if you need to access per-instance data in the fragment Shader.",
+            "Synopsis": [
+                "UNITY_TRANSFER_INSTANCE_ID(v,o)"
+            ]
+        },
+        "UNITY_DEFINE_INSTANCED_PROP": {
+            "detail": "",
+            "documentation": "Use this to define a per-instance Shader property with a type and a name. In this example, the _Color property is unique.",
+            "Synopsis": [
+                "UNITY_DEFINE_INSTANCED_PROP(float4,_Color)"
+            ]
+        },
+        "UNITY_INSTANCING_BUFFER_START": {
+            "detail": "",
+            "documentation": "Every per-instance property must be defined in a specially named constant buffer. Use this pair of macros to wrap the properties you want to be made unique to each instance.",
+            "Synopsis": [
+                "UNITY_INSTANCING_BUFFER_START(name)"
+            ]
+        },
+        "UNITY_INSTANCING_BUFFER_END": {
+            "detail": "",
+            "documentation": "Every per-instance property must be defined in a specially named constant buffer. Use this pair of macros to wrap the properties you want to be made unique to each instance.",
+            "Synopsis": [
+                "UNITY_INSTANCING_BUFFER_END(name)"
+            ]
+        },
+        "UNITY_ACCESS_INSTANCED_PROP": {
+            "detail": "",
+            "documentation": "Use this to access a per-instance Shader property declared in an instancing constant buffer. It uses an instance ID to index into the instance data array. The arrayName in the macro must match the one in UNITY_INSTANCING_BUFFER_END(name) macro.",
+            "Synopsis": [
+                "UNITY_ACCESS_INSTANCED_PROP(arryName,color)"
+            ]
+        },
+        "UNITY_DECLARE_SHADOWMAP": {
+            "detail": "",
+            "documentation": "Declares a shadowmap Texture variable with name “tex”.",
+            "Synopsis": [
+                "UNITY_DECLARE_SHADOWMAP(tex)"
+            ]
+        },
+        "UNITY_SAMPLE_SHADOW": {
+            "detail": "",
+            "documentation": "Samples shadowmap Texture “tex” at given “uv” coordinate (XY components are Texture location, Z component is depth to compare with). Returns single float value with the shadow term in 0..1 range.",
+            "Synopsis": [
+                "UNITY_SAMPLE_SHADOW(tex,uv)"
+            ]
+        },
+        "UNITY_SAMPLE_SHADOW_PROJ": {
+            "detail": "",
+            "documentation": "Similar to above, but does a projective shadowmap read. “uv” is a float4, all other components are divided by .w for doing the lookup.",
+            "Synopsis": [
+                "UNITY_SAMPLE_SHADOW_PROJ(tex,uv)"
+            ]
+        },
+        "UNITY_DECLARE_TEX2D": {
+            "detail": "",
+            "documentation": "Declares a Texture and Sampler pair.",
+            "Synopsis": [
+                "UNITY_DECLARE_TEX2D(name)"
+            ]
+        },
+        "UNITY_DECLARE_TEX2D_NOSAMPLER": {
+            "detail": "",
+            "documentation": "Declares a Texture without a Sampler.",
+            "Synopsis": [
+                "UNITY_DECLARE_TEX2D_NOSAMPLER(name)"
+            ]
+        },
+        "UNITY_DECLARE_TEX2DARRAY": {
+            "detail": "",
+            "documentation": "Declares a Texture array Sampler variable.",
+            "Synopsis": [
+                "UNITY_DECLARE_TEX2DARRAY(name)"
+            ]
+        },
+        "UNITY_SAMPLE_TEX2D": {
+            "detail": "",
+            "documentation": "Sample from a Texture and Sampler pair, using given Texture coordinate.",
+            "Synopsis": [
+                "UNITY_SAMPLE_TEX2D(name,uv)"
+            ]
+        },
+        "UNITY_SAMPLE_TEX2D_SAMPLER": {
+            "detail": "",
+            "documentation": "Sample from Texture (name), using a Sampler from another Texture (samplername).",
+            "Synopsis": [
+                "UNITY_SAMPLE_TEX2D_SAMPLER(name,samplername,uv)"
+            ]
+        },
+        "UNITY_SAMPLE_TEX2DARRAY": {
+            "detail": "",
+            "documentation": "Sample from a Texture array with a float3 UV; the z component of the coordinate is array element index.",
+            "Synopsis": [
+                "UNITY_SAMPLE_TEX2DARRAY(name,uv)"
+            ]
+        },
+        "UNITY_SAMPLE_TEX2DARRAY_LOD": {
+            "detail": "",
+            "documentation": "Sample from a Texture array with an explicit mipmap level.",
+            "Synopsis": [
+                "UNITY_SAMPLE_TEX2DARRAY_LOD(name,uv,lod)"
+            ]
         }
     }
 }
