@@ -1,0 +1,57 @@
+{
+	// Place your snippets for shaderlab here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	"if": {
+		"prefix": "if",
+		"body": [
+			"if (${1:expression}) {",
+			"\t$0",
+			"}"
+		],
+		"description": "Code snippet for an if statement"
+	},
+	"struct": {
+		"prefix": "struct",
+		"body": [
+			"struct ${1:expression} {",
+			"\t$0",
+			"};"
+		],
+		"description": "struct"
+	},
+	"#ifdef": {
+		"prefix": "#ifdef",
+		"body": [
+			"#ifdef  ${1|expression,iouio,uoiy,iouyoi|}",
+		],
+		"description": "#ifdef"
+	},
+	"#pragma": {
+		"prefix": "#pragma",
+		"body": [
+			"#pragma ${1|vertex,geometry,surface,debug,hull,target,only_renderers,exclude_renderers,multi_compile,shader_feature,hardware_tier_variants|}",
+		],
+	},
+	"target": {
+		"prefix": "target ",
+		"body": [
+			"target ${1|2.0,2.5,3.0,3.5,4.0,4.5,4.6,5.0|}",
+		],
+	},
+	"multi_compile": {
+		"prefix": "multi_compile ",
+		"body": [
+			"multi_compile${1| multi_compile_instancing, FANCY_STUFF_ON, FANCY_STUFF_OFF, LIGHTMAP_ON, LIGHTMAP_OFF, SIMPLE_SHADING, BETTER_SHADING, GOOD_SHADING, BEST_SHADING,__FOO_ON,_fwdbase,_fwdadd,_shadowcaster,_fog|}",
+			"$0"
+		],
+	},
+	"": {
+		"prefix": "",
+		"body": [
+			"",
+		],
+	},
+}
