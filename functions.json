@@ -623,7 +623,7 @@
                 "fixed4 fwidth(fixed4 a)"
             ]
         },
-        "intBitsToFloat": {
+        "fd": {
             "detail": "",
             "documentation": "returns the float value corresponding to a given bit represention.of a scalar int value or vector of int values",
             "Synopsis": [
@@ -2345,21 +2345,35 @@
             "detail": "",
             "documentation": "Transforms 2D UV by scale/bias property",
             "Synopsis": [
-                "float2 TRANSFORM_TEX(texure, name)"
+                "float2 TRANSFORM_TEX(tex, uv)"
             ]
         },
         "TRANSFER_SHADOW": {
             "detail": "",
             "documentation": "shadow receving",
             "Synopsis": [
-                "TRANSFORM_TEX(appdata)"
+                "TRANSFER_SHADOW(o)"
+            ]
+        },
+        "TRANSFER_SHADOW_CASTER_NORMALOFFSET": {
+            "detail": "",
+            "documentation": "shadow receving",
+            "Synopsis": [
+                "TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)"
+            ]
+        },
+        "SHADOW_ATTENUATION": {
+            "detail": "",
+            "documentation": "compute the shadow attenuation",
+            "Synopsis": [
+                "fixed SHADOW_ATTENUATION(o)"
             ]
         },
         "SHADOW_COORDS": {
             "detail": "",
             "documentation": "light shadows",
             "Synopsis": [
-                "TRANSFORM_TEX(int)"
+                "SHADOW_COORDS(int)"
             ]
         },
         "UnityWorldSpaceViewDir": {
@@ -2423,6 +2437,13 @@
             "documentation": "Use this in the vertex Shader input/output structure to define an instance ID. See SV_InstanceID for more information.",
             "Synopsis": [
                 "UNITY_VERTEX_INPUT_INSTANCE_ID"
+            ]
+        },
+        "UNITY_SETUP_INSTANCE_ID": {
+            "detail": "",
+            "documentation": "Use this to make the instance ID accessible to Shader functions. It must be used at the very beginning of a vertex Shader, and is optional for fragment Shaders.",
+            "Synopsis": [
+                "UNITY_SETUP_INSTANCE_ID(v)"
             ]
         },
         "UNITY_TRANSFER_INSTANCE_ID": {
@@ -2528,6 +2549,69 @@
             "documentation": "Sample from a Texture array with an explicit mipmap level.",
             "Synopsis": [
                 "UNITY_SAMPLE_TEX2DARRAY_LOD(name,uv,lod)"
+            ]
+        },
+        "UNITY_TRANSFER_FOG": {
+            "detail": "",
+            "documentation": "fog compute??",
+            "Synopsis": [
+                "UNITY_TRANSFER_FOG(v2f,v2f.clipPos)"
+            ]
+        },
+        "UNITY_FOG_COORDS": {
+            "detail": "",
+            "documentation": "fog compute??",
+            "Synopsis": [
+                "UNITY_FOG_COORDS(int)"
+            ]
+        },
+        "UNITY_APPLY_FOG": {
+            "detail": "",
+            "documentation": "fog compute??",
+            "Synopsis": [
+                "UNITY_APPLY_FOG(v2f.fogCoord,col)"
+            ]
+        },
+        "UNITY_APPLY_FOG_COLOR": {
+            "detail": "",
+            "documentation": "fog compute??",
+            "Synopsis": [
+                "UNITY_APPLY_FOG(v2f.fogCoord,col,col)"
+            ]
+        },
+        "UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO": {
+            "detail": "",
+            "documentation": "init in vertex function",
+            "Synopsis": [
+                "UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(v2f)"
+            ]
+        },
+        "COMPUTE_EYEDEPTH": {
+            "detail": "",
+            "documentation": "compute depth",
+            "Synopsis": [
+                "COMPUTE_EYEDEPTH(float screenPos.z)"
+            ]
+        },
+        "UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX": {
+            "detail": "",
+            "documentation": "in fragment function",
+            "Synopsis": [
+                "UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(v2f)"
+            ]
+        },
+        "UNITY_DECLARE_SCREENSPACE_TEXTURE": {
+            "detail": "",
+            "documentation": "",
+            "Synopsis": [
+                "UNITY_DECLARE_SCREENSPACE_TEXTURE()"
+            ]
+        },
+        "": {
+            "detail": "",
+            "documentation": "",
+            "Synopsis": [
+                ""
             ]
         }
     }
