@@ -1,208 +1,204 @@
 {
-	"if": {
-		"prefix": "if",
-		"body": "if ($0) {\n\t\n}"
-	},
-	"struct": {
-		"prefix": "struct",
-		"body": "struct $1 {\n\t$0\n};"
-	},
-	"ifdef": {
-		"prefix": "ifdef",
-		"body": "#ifdef $1\n\t$0\n#endif\n",
-	},
-	"ifndef": {
-		"prefix": "ifndef",
-		"body": "#ifndef $1\n\t$0\n#endif\n",
-	},
-	"target": {
-		"prefix": "target",
-		"body": "#pragma target ${1|3.0,2.5,2.0,3.5,4.0,4.5,4.6,5.0|}\n$0",
-	},
-	"multi_compile": { //to do
-		"prefix": "multi_compile",
-		"body": "#pragma multi_compile${1| multi_compile_instancing, FANCY_STUFF_ON, FANCY_STUFF_OFF, LIGHTMAP_ON, LIGHTMAP_OFF, SIMPLE_SHADING, BETTER_SHADING, GOOD_SHADING, BEST_SHADING,__FOO_ON,_fwdbase,_fwdadd,_shadowcaster,_fwdadd_fullshadows,_fog|}\n$0",
-	},
-	"CBUFFER_START": {
-		"prefix": "CBUFFER_START",
-		"body": "CBUFFER_START (${1:name})\n\t$0\nCBUFFER_END\n",
-	},
-	"#if": {
-		"prefix": "#if",
-		"body": "#if $1\n\t$0\n#endif\n",
-	},
-	"for": {
-		"prefix": "for",
-		"body": "for (int ${1:i}=0;$1<${2:length};++$1) {\n\t$0\n}\n",
-	},
-	"CGPROGRAM": {
-		"prefix": "CGPROGRAM",
-		"body": "CGPROGRAM\n$0\nENDCG\n",
-	},
-	"Shader": {
-		"prefix": "Shader",
-		"body": [
-			"Shader \"${1:custom}/$TM_FILENAME$2\" {",
-			"\tProperties{",
-			"\t\tMainTex(\"_MainTex\", 2D) = \"white\" {}",
-			"\t\t_Color(\"Color\", Color) = (1,1,1,1)",
-			"\t}",
-			"\tSubShader{",
-			"\t\tPass{",
-			"\t\t\t$0",
-			"\t\t}",
-			"\t}",
-			"\tFallBack Diffuse",
-			"}"
-		]
-	},
-	"Properties": {
-		"prefix": "Properties",
-		"body": [
-			"Properties{",
-			"\t_MainTex(\"_MainTex\", 2D) = \"white\" {}",
-			"\t_Color(\"Color\", Color) = (1,1,1,1)",
-			"\t$0",
-			"}"
-		]
-	},
-	"SubShader": {
-		"prefix": "SubShader",
-		"body": "SubShader{\n\t$0\n\tPass{\n\t\t\n\t}\n}\nFallback Off\n",
-	},
-	"Pass": {
-		"prefix": "Pass",
-		"body": "Pass{\n\t$0\n}\n",
-	},
-	"Cull": {
-		"prefix": "Cull",
-		"body": "Cull ${1|Front,Back,Off|}\n$0",
-	},
-	"only_renderers": {
-		"prefix": "only_renderers",
-		"body": "#pragma only_renderers ${1|d3d11,glcore,gles,gles3,metal,vulkan,d3d11_9x,xboxone,ps4,psp2,n3ds,wiiu|}\n$0",
-	},
-	"include": {
-		"prefix": "include",
-		"body": "include ${1|\"UnityCG.cginc\",\"HLSLSupport.cginc\",\"AutoLight.cginc\",\"Lighting.cginc\",\"TerrainEngine.cginc\",\"UnityShaderVariables.cginc\"|}\n$0",
-	},
-	"ZWrite": {
-		"prefix": "Zwrite",
-		"body": "Zwrite ${1|On,Off|}\n$0",
-	},
-	"ZTest ": {
-		"prefix": "ZTest ",
-		"body": "ZTest ${1|Less,Greater,LEqual,GEqual,Equal,NotEqual,Always|}\n$0",
-	},
-	"AlphaTest": {
-		"prefix": "AlphaTest",
-		"body": "AlphaTest ${|Off,Greater,GEqual,Less,LEqual,Equal,NotEqual,Always,Never|}\n$0",
-	},
-	"Blend": {
-		"prefix": "Blend",
-		"body": "Blend ${1|Off,Zero,One,SrcColor,SrcAlpha,DstColor,DstAlpha,OneMinusSrcColor,OneMinusSrcAlpha,OneMinusDstColor,OneMinusDstAlpha|} ${2| ,Zero,One,SrcColor,SrcAlpha,DstColor,DstAlpha,OneMinusSrcColor,OneMinusSrcAlpha,OneMinusDstColor,OneMinusDstAlpha|}\n$0",
-	},
-	"BlendOP": { //to do
-		"prefix": "BlendOP",
-		"body": "BlendOP ${1|Add,Sub,RevSub,Min,Max,LogicalClear,LogicalSet,LogicalCopy,LogicalInverted,LogicalNoop,LogicalInvert,LogicalAdd,LogicalNand,LogicalOr,LogicalNor,LogicalXor,LogicalEquiv,LogicalAndReverse,LogicalAndInverted,LogicalOrReverse,LogicalOrInverted|} ${2|Add,Sub,RevSub,Min,Max,LogicalClear,LogicalSet,LogicalCopy,LogicalInverted,LogicalNoop,LogicalInvert,LogicalAdd,LogicalNand,LogicalOr,LogicalNor,LogicalXor,LogicalEquiv,LogicalAndReverse,LogicalAndInverted,LogicalOrReverse,LogicalOrInverted|}\n$0",
-	},
-	"SV_": {
-		"prefix": "SV_",
-		"body": "SV_${1|POSITION,Target,Depth,VertexID,DispatchThreadID,InstanceID|}",
-	},
-	"SHADER_API_": {
-		"prefix": "SHADER_API_",
-		"body": "SHADER_API_${1|APID3D11,GLCORE,GLES,GLES3,METAL,VULKAN,D3D11_9X,PS4,XBOXONE,PSP2,MOBILE|}\n$0",
-	},
-	"matrix": {
-		"prefix": "matrix",
-		"body": "${1|UNITY_MATRIX_MVP,UNITY_MATRIX_MV,UNITY_MATRIX_V,UNITY_MATRIX_P,UNITY_MATRIX_VP,UNITY_MATRIX_T_MV,UNITY_MATRIX_IT_MV,unity_ObjectToWorld,unity_WorldToObject,unity_CameraProjection,unity_CameraInvProjection,unity_CameraWorldClipPlanes]|}",
-		"description": "built-in matrix"
-	},
-	"time": {
-		"prefix": "time",
-		"body": "${1|_Time,_SinTime,_CosTime,unity_DeltaTime|}",
-		"description": "built-in time variables"
-	},
-	"UNITY_PASS_": {
-		"prefix": "UNITY_PASS_",
-		"body": "UNITY_PASS_${1|FORWARDBASE,FORWARDADD,DEFERRED,SHADOWCASTER,PREPASSBASE,PREPASSFINAL|}",
-		"description": "built-in pass"
-	},
-	"Tags": {
-		"prefix": "Tags",
-		"body": "Tags{\n\t$0\n}\n",
-	},
-	"Queue": {
-		"prefix": "Queue",
-		"body": "\"Queue\"=\"${1|Background,Geometry,AlphaTest,Transparent,Overly|}\" $0",
-	},
-	"RenderType": {
-		"prefix": "RenderType",
-		"body": "\"RenderType\"=\"${1|Opaque,Transparent,TransparentCutout,Background,Overlay,TreeOpaque,TreeTransparentCutout,TreeBillboard,Grass,GrassBillboard,TreeBark,TreeLeaf|}\" $0",
-	},
-	"DisableBatching": {
-		"prefix": "DisableBatching",
-		"body": "\"DisableBatching\"=\"${1|True,False,LODFading|}\" $0",
-	},
-	"IgnoreProjector": {
-		"prefix": "IgnoreProjector",
-		"body": "\"IgnoreProjector\"=\"True\" $0",
-	},
-	"PreviewType": {
-		"prefix": "PreviewType",
-		"body": "\"PreviewType\"=\"${1|Plane,Skybox|}\" $0",
-	},
-	"CanUseSpriteAtlas": {
-		"prefix": "CanUseSpriteAtlas",
-		"body": "\"CanUseSpriteAtlas\"=\"${1|True,False|}\" $0",
-	},
-	"ForceNoShadowCasting": {
-		"prefix": "ForceNoShadowCasting",
-		"body": "\"ForceNoShadowCasting\"=\"True\" $0",
-	},
-	"ColorMask": {
-		"prefix": "ColorMask",
-		"body": "ColorMask ${1|R,G,B,A,RGB,0|}\n$0",
-	},
-	"#pragma": {
-		"prefix": "#pragma",
-		"body": "pragma ${1|hull,domain,enable_d3d11_debug_symbols,glsl,glsl_no_auto_normalization,profileoption,fragmentoption|} $0",
-	},
-	"vert": {
-		"prefix": "vert",
-		"body": "#pragma vertex ${1:vert}\n$0",
-	},
-	"frag": {
-		"prefix": "frag",
-		"body": "#pragma fragment ${1:frag}\n$0",
-	},
-	"gemo": {
-		"prefix": "gemo",
-		"body": "#pragma gemotery ${1:gemo}\n$0",
-	},
-	"require": {
-		"prefix": "require",
-		"body": "#pragma require ${1||}\n$0",
-	},
-	"exclude_renderers": {
-		"prefix": "exclude_renderers",
-		"body": "#pragma exclude_renderers ${1|d3d11,glcore,gles,gles3,metal,vulkan,d3d11_9x,xboxone,ps4,psp2,n3ds,wiiu|}\n$0",
-	},
-	"hardware_tier_variants": {
-		"prefix": "hardware_tier_variants",
-		"body": "#pragma hardware_tier_variants ${1|d3d11,glcore,gles,gles3,metal,vulkan,d3d11_9x,xboxone,ps4,psp2,n3ds,wiiu|}\n$0",
-	},
-	"Fog": {
-		"prefix": "Fog",
-		"body": [
-			"Fog{Color(${1:1},${2:1},${3:1},${4:1})} $0",
-		]
-	},
-	"Offset": {
-		"prefix": "Offset",
-		"body": [
-			"Offset ${1:0},${2:-1}\n$0",
-		]
-	},
+    "if": {
+        "prefix": "if",
+        "body": "if ($0) {\n\t\n}"
+    },
+    "struct": {
+        "prefix": "struct",
+        "body": "struct $1 {\n\t$0\n}"
+    },
+    "ifdef": {
+        "prefix": "ifdef",
+        "body": "#ifdef $1\n\t$0\n#endif\n"
+    },
+    "ifndef": {
+        "prefix": "ifndef",
+        "body": "#ifndef $1\n\t$0\n#endif\n"
+    },
+    "target": {
+        "prefix": "target",
+        "body": "#pragma target ${1|3.0,2.5,2.0,3.5,4.0,4.5,4.6,5.0|}\n$0"
+    },
+    "multi_compile": { //to do
+        "prefix": "multi_compile",
+        "body": "#pragma multi_compile${1| multi_compile_instancing, FANCY_STUFF_ON, FANCY_STUFF_OFF, LIGHTMAP_ON, LIGHTMAP_OFF, SIMPLE_SHADING, BETTER_SHADING, GOOD_SHADING, BEST_SHADING,__FOO_ON,_fwdbase,_fwdadd,_shadowcaster,_fwdadd_fullshadows,_fog|}\n$0"
+    },
+    "CBUFFER_START": {
+        "prefix": "CBUFFER_START",
+        "body": "CBUFFER_START (${1:name})\n\t$0\nCBUFFER_END\n"
+    },
+    "#if": {
+        "prefix": "#if",
+        "body": "#if $1\n\t$0\n#endif\n"
+    },
+    "for": {
+        "prefix": "for",
+        "body": "for (int ${1:i}=0;$1<${2:length};++$1) {\n\t$0\n}\n"
+    },
+    "CGPROGRAM": {
+        "prefix": "CGPROGRAM",
+        "body": "CGPROGRAM\n$0\nENDCG\n"
+    },
+    "Shader": {
+        "prefix": "Shader",
+        "body": [
+            "Shader \"${1:custom}/$TM_FILENAME$2\" {",
+            "\tProperties{",
+            "\t\tMainTex(\"_MainTex\", 2D) = \"white\" {}",
+            "\t\t_Color(\"Color\", Color) = (1,1,1,1)",
+            "\t}",
+            "\tSubShader{",
+            "\t\tPass{",
+            "\t\t\t$0",
+            "\t\t}",
+            "\t}",
+            "\tFallBack Diffuse",
+            "}"
+        ]
+    },
+    "Properties": {
+        "prefix": "Properties",
+        "body": [
+            "Properties{",
+            "\t_MainTex(\"_MainTex\", 2D) = \"white\" {}",
+            "\t_Color(\"Color\", Color) = (1,1,1,1)",
+            "\t$0",
+            "}"
+        ]
+    },
+    "SubShader": {
+        "prefix": "SubShader",
+        "body": "SubShader{\n\t$0\n\tPass{\n\t\t\n\t}\n}\nFallback Off\n"
+    },
+    "Pass": {
+        "prefix": "Pass",
+        "body": "Pass{\n\t$0\n}\n"
+    },
+    "Cull": {
+        "prefix": "Cull",
+        "body": "Cull ${1|Front,Back,Off|}\n$0"
+    },
+    "only_renderers": {
+        "prefix": "only_renderers",
+        "body": "#pragma only_renderers ${1|d3d11,glcore,gles,gles3,metal,vulkan,d3d11_9x,xboxone,ps4,psp2,n3ds,wiiu|}\n$0"
+    },
+    "include": {
+        "prefix": "include",
+        "body": "include ${1|\"UnityCG.cginc\",\"HLSLSupport.cginc\",\"AutoLight.cginc\",\"Lighting.cginc\",\"TerrainEngine.cginc\",\"UnityShaderVariables.cginc\"|}\n$0"
+    },
+    "ZWrite": {
+        "prefix": "Zwrite",
+        "body": "Zwrite ${1|On,Off|}\n$0"
+    },
+    "ZTest ": {
+        "prefix": "ZTest ",
+        "body": "ZTest ${1|Less,Greater,LEqual,GEqual,Equal,NotEqual,Always|}\n$0"
+    },
+    "AlphaTest": {
+        "prefix": "AlphaTest",
+        "body": "AlphaTest ${|Off,Greater,GEqual,Less,LEqual,Equal,NotEqual,Always,Never|}\n$0"
+    },
+    "Blend": {
+        "prefix": "Blend",
+        "body": "Blend ${1|Off,Zero,One,SrcColor,SrcAlpha,DstColor,DstAlpha,OneMinusSrcColor,OneMinusSrcAlpha,OneMinusDstColor,OneMinusDstAlpha|} ${2| ,Zero,One,SrcColor,SrcAlpha,DstColor,DstAlpha,OneMinusSrcColor,OneMinusSrcAlpha,OneMinusDstColor,OneMinusDstAlpha|}\n$0"
+    },
+    "BlendOP": { //to do
+        "prefix": "BlendOP",
+        "body": "BlendOP ${1|Add,Sub,RevSub,Min,Max,LogicalClear,LogicalSet,LogicalCopy,LogicalInverted,LogicalNoop,LogicalInvert,LogicalAdd,LogicalNand,LogicalOr,LogicalNor,LogicalXor,LogicalEquiv,LogicalAndReverse,LogicalAndInverted,LogicalOrReverse,LogicalOrInverted|} ${2|Add,Sub,RevSub,Min,Max,LogicalClear,LogicalSet,LogicalCopy,LogicalInverted,LogicalNoop,LogicalInvert,LogicalAdd,LogicalNand,LogicalOr,LogicalNor,LogicalXor,LogicalEquiv,LogicalAndReverse,LogicalAndInverted,LogicalOrReverse,LogicalOrInverted|}\n$0"
+    },
+    "SV_": {
+        "prefix": "SV_",
+        "body": "SV_${1|POSITION,Target,Depth,VertexID,DispatchThreadID,InstanceID|}"
+    },
+    "SHADER_API_": {
+        "prefix": "SHADER_API_",
+        "body": "SHADER_API_${1|APID3D11,GLCORE,GLES,GLES3,METAL,VULKAN,D3D11_9X,PS4,XBOXONE,PSP2,MOBILE|}\n$0"
+    },
+    "matrix": {
+        "prefix": "matrix",
+        "body": "${1|UNITY_MATRIX_MVP,UNITY_MATRIX_MV,UNITY_MATRIX_V,UNITY_MATRIX_P,UNITY_MATRIX_VP,UNITY_MATRIX_T_MV,UNITY_MATRIX_IT_MV,unity_ObjectToWorld,unity_WorldToObject,unity_CameraProjection,unity_CameraInvProjection,unity_CameraWorldClipPlanes]|}",
+        "description": "built-in matrix"
+    },
+    "time": {
+        "prefix": "time",
+        "body": "${1|_Time,_SinTime,_CosTime,unity_DeltaTime|}",
+        "description": "built-in time variables"
+    },
+    "UNITY_PASS_": {
+        "prefix": "UNITY_PASS_",
+        "body": "UNITY_PASS_${1|FORWARDBASE,FORWARDADD,DEFERRED,SHADOWCASTER,PREPASSBASE,PREPASSFINAL|}",
+        "description": "built-in pass"
+    },
+    "Tags": {
+        "prefix": "Tags",
+        "body": "Tags{\n\t$0\n}\n"
+    },
+    "Queue": {
+        "prefix": "Queue",
+        "body": "\"Queue\"=\"${1|Background,Geometry,AlphaTest,Transparent,Overly|}\" $0"
+    },
+    "RenderType": {
+        "prefix": "RenderType",
+        "body": "\"RenderType\"=\"${1|Opaque,Transparent,TransparentCutout,Background,Overlay,TreeOpaque,TreeTransparentCutout,TreeBillboard,Grass,GrassBillboard,TreeBark,TreeLeaf|}\" $0"
+    },
+    "DisableBatching": {
+        "prefix": "DisableBatching",
+        "body": "\"DisableBatching\"=\"${1|True,False,LODFading|}\" $0"
+    },
+    "IgnoreProjector": {
+        "prefix": "IgnoreProjector",
+        "body": "\"IgnoreProjector\"=\"True\" $0"
+    },
+    "PreviewType": {
+        "prefix": "PreviewType",
+        "body": "\"PreviewType\"=\"${1|Plane,Skybox|}\" $0"
+    },
+    "CanUseSpriteAtlas": {
+        "prefix": "CanUseSpriteAtlas",
+        "body": "\"CanUseSpriteAtlas\"=\"${1|True,False|}\" $0"
+    },
+    "ForceNoShadowCasting": {
+        "prefix": "ForceNoShadowCasting",
+        "body": "\"ForceNoShadowCasting\"=\"True\" $0"
+    },
+    "ColorMask": {
+        "prefix": "ColorMask",
+        "body": "ColorMask ${1|R,G,B,A,RGB,0|}\n$0"
+    },
+    "#pragma": {
+        "prefix": "#pragma",
+        "body": "pragma ${1|hull,domain,enable_d3d11_debug_symbols,glsl,glsl_no_auto_normalization,profileoption,fragmentoption|} $0"
+    },
+    "vert": {
+        "prefix": "vert",
+        "body": "#pragma vertex ${1:vert}\n$0"
+    },
+    "frag": {
+        "prefix": "frag",
+        "body": "#pragma fragment ${1:frag}\n$0"
+    },
+    "gemo": {
+        "prefix": "gemo",
+        "body": "#pragma gemotery ${1:gemo}\n$0"
+    },
+    "require": {
+        "prefix": "require",
+        "body": "#pragma require ${1||}\n$0"
+    },
+    "exclude_renderers": {
+        "prefix": "exclude_renderers",
+        "body": "#pragma exclude_renderers ${1|d3d11,glcore,gles,gles3,metal,vulkan,d3d11_9x,xboxone,ps4,psp2,n3ds,wiiu|}\n$0"
+    },
+    "hardware_tier_variants": {
+        "prefix": "hardware_tier_variants",
+        "body": "#pragma hardware_tier_variants ${1|d3d11,glcore,gles,gles3,metal,vulkan,d3d11_9x,xboxone,ps4,psp2,n3ds,wiiu|}\n$0"
+    },
+    "Fog": {
+        "prefix": "Fog",
+        "body": "Fog{Color(${1:1},${2:1},${3:1},${4:1})} $0"
+    },
+    "Offset": {
+        "prefix": "Offset",
+        "body": "Offset ${1:0},${2:-1}\n$0"
+    }
 }
