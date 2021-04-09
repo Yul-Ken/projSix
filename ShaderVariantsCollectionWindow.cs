@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using System;
 using System.Reflection;
 using System.Collections;
@@ -127,7 +127,7 @@ public class ShaderVariantsCollectionWindow : EditorWindow
         }
         if (material.enableInstancing) keywords.Add("INSTANCING_ON");
         foreach (var key in material.shaderKeywords) keywords.Add(key);
-        foreach (var key in ForceEnabledGlobalKeywords) { if (shaderAllkeyworlds.Contains(key)) keywords.Add(key); }
+        foreach (var key in ForceEnabledGlobalKeywords) { if (shaderAllkeyworlds.Contains(key) /*&& Shader.IsKeywordEnabled(key)*/) keywords.Add(key); }
         foreach (var key in ForceDisabledGlobalKeywords) keywords.Remove(key);
 
         collection.Add(CreateVariant(shader, passType, keywords.ToArray()));
